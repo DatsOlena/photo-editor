@@ -95,7 +95,7 @@ function App() {
   const selectedOption = options[selectedOptionIndex]
 
   function handleSliderChange(event: ChangeEvent<HTMLInputElement>) {
-    const nextValue = Number(event.target.value)
+    const nextValue = Number(event.target.value) as number
     setOptions(prevOptions =>
       prevOptions.map((option, index) =>
         index !== selectedOptionIndex
