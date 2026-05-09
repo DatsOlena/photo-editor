@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 
 import './App.css'
 import Slider from './components/Slider'
@@ -94,17 +94,15 @@ function App() {
 
   const selectedOption = options[selectedOptionIndex]
 
-  function handleSliderChange({ target }) {
-    setOptions(prevOptions => {
-      return prevOptions.map((option, index) => {
-        if (index !== selectedOptionIndex) return option;
-        return {
-          ...option,
-          value: target.value
-        }
-      })
-    })
-
+  function handleSliderChange(event: ChangeEvent<HTMLInputElement>) {
+    const nextValue = Number(event.target.value)
+    setOptions(prevOptions =>
+      prevOptions.map((option, index) =>
+        index !== selectedOptionIndex
+          ? option
+          : { ...option, value: nextValue }
+      )
+    )
   }
   console.log(options);
 
