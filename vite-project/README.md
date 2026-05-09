@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Photo editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React app for previewing a photo with **CSS `filter`** adjustments. Pick a control in the sidebar, move the slider, and see the image update in real time. Filters are combined into one `filter` string so every effect applies at once.
 
-Currently, two official plugins are available:
+**Stack:** React 19, TypeScript, Vite 8.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Preview** — Full-viewport image (`src/assets/main-image.jpg`) with `background-size: cover`
+- **Adjustments** — Brightness, contrast, saturate, grayscale, sepia, hue-rotate, blur (each with its own range and unit)
+- **Reset** — Restores all options to their defaults
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run locally
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the URL Vite prints (usually `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Other scripts:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Command        | Description              |
+| -------------- | ------------------------ |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve the production build |
+| `npm run lint`    | Run ESLint               |
+
+## Project layout
+
+| Path | Role |
+| ---- | ---- |
+| `src/App.tsx` | Filter state, sidebar selection, slider handler, `getImageStyles()` |
+| `src/components/Slider.jsx` | Range input wrapper |
+| `src/components/SidebarItem.jsx` | Sidebar button |
+| `src/index.css` | Grid layout (image / sidebar / slider areas) |
+| `src/assets/main-image.jpg` | Demo photo |
+
+## How filtering works
+
+Each option has a `property` (e.g. `brightness`), `value`, and `unit`. The app builds values like `brightness(100%)` and joins them with spaces into a single string passed to React’s `style={{ filter: '...' }}` on the `.main-image` element.
