@@ -77,9 +77,20 @@ const DEFAULT_OPTIONS = [
   }
 ]
 
+type FilterOption = {
+  name: string
+  property: string
+  value: number
+  range: {
+    min: number
+    max: number
+  }
+  unit: string
+}
+
 function App() {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
-  const [options, setOptions] = useState(DEFAULT_OPTIONS)
+  const [options, setOptions] = useState<FilterOption[]>(DEFAULT_OPTIONS)
 
   const selectedOption = options[selectedOptionIndex]
 
@@ -114,12 +125,14 @@ function App() {
         style={getImageStyles()}
       />
       <div className="sidebar">
-        {options.map((option, index) =>
-          <SidebarItem key={index} name={option.name} active={selectedOptionIndex === index}
-            handleClick={() => setSelectedOptionIndex(index)}
+        {options.map((option, index) => (
+          <SidebarItem
+            key={index}
+            name={option.name}
+            active={selectedOptionIndex === index}
+            onClick={() => setSelectedOptionIndex(index)}
           />
-        )
-        }
+        ))}
       </div>
       <Slider
         min={selectedOption.range.min}

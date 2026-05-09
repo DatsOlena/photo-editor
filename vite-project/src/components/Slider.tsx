@@ -1,6 +1,11 @@
-import React from 'react'
+type SliderProps = {
+    min: number
+    max: number
+    value: number
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
 
-export default function Slider({ min, max, value, handleChange }) {
+export default function Slider({ min, max, value, handleChange }: SliderProps) {
     return (
         <div className='slider-container'>
             <input type="range"
