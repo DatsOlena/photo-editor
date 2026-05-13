@@ -111,6 +111,7 @@ body {
 
 .sidebar-item.active {
   background-color: #4a6f6a;
+  color: #f1f5f8;
 }
 
 .sidebar-item::after {
