@@ -64,6 +64,7 @@ body {
   height: 100%;
   min-height: 0;
 }
+
 .image-placeholder-image {
   display: block;
   max-width: 100%;
@@ -87,6 +88,10 @@ body {
   background-color: #4a6f6a;
   border: 1px solid #3d5c58;
   border-radius: 6px;
+}
+.image-placeholder-button:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  transition: transform 0.3s ease-in-out;
 }
 
 .image-placeholder-input {

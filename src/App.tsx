@@ -152,6 +152,7 @@ function App() {
             name={option.name}
             active={selectedOptionIndex === index}
             onClick={() => setSelectedOptionIndex(index)}
+            disabled={isDisabled}
           />
         ))}
       </div>
