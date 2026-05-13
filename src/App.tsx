@@ -130,6 +130,13 @@ function App() {
     return { filter: filters.join(' ') }
   }
 
+  const filtersAtDefault = options.every(
+    (opt, i) => opt.value === DEFAULT_OPTIONS[i].value
+  )
+  const resetFiltersDisabled = imageUrl === null || filtersAtDefault
+
+  const isDisabled =  imageUrl === null
+
   return (
     <div className='container'>
       <ImagePlaceholder
@@ -138,10 +145,6 @@ function App() {
         onRemoveImage={handleRemoveImage}
         style={getImageStyles()}
       />
-      {/* <div
-        className="main-image"
-        style={getImageStyles()}
-      /> */}
       <div className="sidebar">
         {options.map((option, index) => (
           <SidebarItem
@@ -158,10 +161,12 @@ function App() {
           max={selectedOption.range.max}
           value={selectedOption.value}
           handleChange={handleSliderChange}
+          disabled={isDisabled}
         />
         <button
           type="button"
           className="reset-filters-button"
+          disabled={resetFiltersDisabled}
           onClick={() => setOptions(DEFAULT_OPTIONS)}
         >
           Reset filters
