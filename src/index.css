@@ -19,14 +19,70 @@ body {
   background-color: #f1f5f8;
 }
 
-.main-image {
+.image-placeholder-container {
   grid-area: image;
-  background-image: url('./assets/main-image.jpg');
   width: 100%;
   height: 100%;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.image-placeholder-remove {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: #7d858b;
+  border: none;
+  background-color: transparent;
+}
+
+.image-placeholder-remove:hover{
+  background-color: #556a67;
+  border: 1px solid #3d5c58;
+  border-radius: 6px;
+  color: #ffffff;
+
+}
+
+.image-placeholder-remove:hover,
+.image-placeholder-remove:focus-visible {
+  background-color: #3d5c58;
+}
+
+.image-placeholder {
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.image-placeholder-image {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.image-placeholder-input {
+  display: none;
 }
 
 .sidebar {
@@ -49,12 +105,6 @@ body {
   transition: background-color 150ms;
 }
 
-.slide-container {
-  grid-area: slider;
-  margin-top: 2rem;
-  padding: 2rem;
-}
-
 .sidebar-item:hover, .sidebar-item:focus {
   background-color: #638880;
 }
@@ -75,6 +125,40 @@ body {
 
 .sidebar-item:last-child::after {
   display: none;
+}
+
+.slider-strip {
+  grid-area: slider;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem 1.25rem 1.25rem;
+  background-color: #b0c8c2;
+  border-top: 1px solid #8aa39e;
+}
+
+.slider-strip .slider-container {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.reset-filters-button {
+  align-self: flex-end;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: #f1f5f8;
+  background-color: #4a6f6a;
+  border: 1px solid #3d5c58;
+  border-radius: 6px;
+}
+
+.reset-filters-button:hover,
+.reset-filters-button:focus-visible {
+  background-color: #3d5c58;
 }
 
 .slider-container {
