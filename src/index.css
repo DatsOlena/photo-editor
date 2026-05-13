@@ -79,6 +79,14 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: #f1f5f8;
+  background-color: #4a6f6a;
+  border: 1px solid #3d5c58;
+  border-radius: 6px;
 }
 
 .image-placeholder-input {
@@ -157,9 +165,17 @@ body {
   border-radius: 6px;
 }
 
-.reset-filters-button:hover,
-.reset-filters-button:focus-visible {
+.reset-filters-button:hover:not(:disabled),
+.reset-filters-button:focus-visible:not(:disabled) {
   background-color: #3d5c58;
+}
+
+.reset-filters-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  color: #e8eef0;
+  background-color: #7a9590;
+  border-color: #6a8580;
 }
 
 .slider-container {
