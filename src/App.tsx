@@ -3,6 +3,7 @@ import { useState, type ChangeEvent } from 'react'
 import './App.css'
 import Slider from './components/Slider'
 import SidebarItem from './components/SidebarItem'
+import ImagePlaceholder from './components/ImagePlaceholder'
 
 const DEFAULT_OPTIONS = [
   {
@@ -91,6 +92,23 @@ type FilterOption = {
 function App() {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
   const [options, setOptions] = useState<FilterOption[]>(DEFAULT_OPTIONS)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    setImageUrl(prev => {
+      if (prev) URL.revokeObjectURL(prev)
+      return URL.createObjectURL(file)
+    })
+  }
+
+  function handleRemoveImage() {
+    setImageUrl(prev => {
+      if (prev) URL.revokeObjectURL(prev)
+      return null
+    })
+  }
 
   const selectedOption = options[selectedOptionIndex]
 
@@ -104,7 +122,6 @@ function App() {
       )
     )
   }
-  console.log(options);
 
   function getImageStyles() {
     const filters = options.map(option =>
@@ -113,15 +130,18 @@ function App() {
     return { filter: filters.join(' ') }
   }
 
-  const styles = getImageStyles();
-  console.log(styles);
-
   return (
     <div className='container'>
-      <div
-        className="main-image"
+      <ImagePlaceholder
+        imageUrl={imageUrl}
+        handleImageChange={handleImageChange}
+        onRemoveImage={handleRemoveImage}
         style={getImageStyles()}
       />
+      {/* <div
+        className="main-image"
+        style={getImageStyles()}
+      /> */}
       <div className="sidebar">
         {options.map((option, index) => (
           <SidebarItem
@@ -132,14 +152,21 @@ function App() {
           />
         ))}
       </div>
-      <Slider
-        min={selectedOption.range.min}
-        max={selectedOption.range.max}
-        value={selectedOption.value}
-        handleChange={handleSliderChange}
-      />
-
-      <button onClick={() => setOptions(DEFAULT_OPTIONS)}>Reset</button>
+      <div className="slider-strip">
+        <Slider
+          min={selectedOption.range.min}
+          max={selectedOption.range.max}
+          value={selectedOption.value}
+          handleChange={handleSliderChange}
+        />
+        <button
+          type="button"
+          className="reset-filters-button"
+          onClick={() => setOptions(DEFAULT_OPTIONS)}
+        >
+          Reset filters
+        </button>
+      </div>
     </div>
   )
 }
