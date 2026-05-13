@@ -4,6 +4,7 @@ import './App.css'
 import Slider from './components/Slider'
 import SidebarItem from './components/SidebarItem'
 import ImagePlaceholder from './components/ImagePlaceholder'
+import { downloadFilteredImage } from './utils/downloadFilteredImage'
 
 const DEFAULT_OPTIONS = [
   {
@@ -93,6 +94,7 @@ function App() {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
   const [options, setOptions] = useState<FilterOption[]>(DEFAULT_OPTIONS)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [downloadPending, setDownloadPending] = useState(false)
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -123,11 +125,26 @@ function App() {
     )
   }
 
+  function getFilterString() {
+    return options
+      .map(option => `${option.property}(${option.value}${option.unit})`)
+      .join(' ')
+  }
+
   function getImageStyles() {
-    const filters = options.map(option =>
-      `${option.property}(${option.value}${option.unit})`
-    )
-    return { filter: filters.join(' ') }
+    return { filter: getFilterString() }
+  }
+
+  async function handleDownloadEditedImage() {
+    if (!imageUrl || downloadPending) return
+    setDownloadPending(true)
+    try {
+      await downloadFilteredImage(imageUrl, getFilterString())
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setDownloadPending(false)
+    }
   }
 
   const filtersAtDefault = options.every(
@@ -164,14 +181,24 @@ function App() {
           handleChange={handleSliderChange}
           disabled={isDisabled}
         />
-        <button
-          type="button"
-          className="reset-filters-button"
-          disabled={resetFiltersDisabled}
-          onClick={() => setOptions(DEFAULT_OPTIONS)}
-        >
-          Reset filters
-        </button>
+        <div className="slider-strip-actions">
+          <button
+            type="button"
+            className="download-image-button"
+            disabled={imageUrl === null || downloadPending}
+            onClick={() => void handleDownloadEditedImage()}
+          >
+            {downloadPending ? 'Saving…' : 'Download'}
+          </button>
+          <button
+            type="button"
+            className="reset-filters-button"
+            disabled={resetFiltersDisabled}
+            onClick={() => setOptions(DEFAULT_OPTIONS)}
+          >
+            Reset filters
+          </button>
+        </div>
       </div>
     </div>
   )

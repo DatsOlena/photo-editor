@@ -158,8 +158,36 @@ body {
   background-color: transparent;
 }
 
+.slider-strip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.download-image-button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: #2c403d;
+  background-color: #d8e8e4;
+  border: 1px solid #8aa39e;
+  border-radius: 6px;
+}
+
+.download-image-button:hover:not(:disabled),
+.download-image-button:focus-visible:not(:disabled) {
+  background-color: #c5dbd4;
+  border-color: #4a6f6a;
+}
+
+.download-image-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .reset-filters-button {
-  align-self: flex-end;
   cursor: pointer;
   padding: 0.5rem 1rem;
   font: inherit;
