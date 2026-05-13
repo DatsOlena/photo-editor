@@ -3,9 +3,10 @@ type SliderProps = {
     max: number
     value: number
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    disabled: boolean
 }
 
-export default function Slider({ min, max, value, handleChange }: SliderProps) {
+export default function Slider({ min, max, value, handleChange, disabled }: SliderProps) {
     return (
         <div className='slider-container'>
             <input type="range"
@@ -13,6 +14,7 @@ export default function Slider({ min, max, value, handleChange }: SliderProps) {
                 value={value}
                 onChange={handleChange}
                 className='slider'
+                disabled={disabled}
             />
         </div>
     )
